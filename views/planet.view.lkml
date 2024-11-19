@@ -116,11 +116,21 @@ view: planet {
     drill_fields: [planet_id, planet_name]
   }
   measure: stellar_flux {
+    type: average
+    sql:
+    CASE
+      WHEN ${impact_parameter} IS NOT NULL AND ${impact_parameter} > 0 THEN
+      ROUND(
+        (${star.stellar_luminosity} / (4 * 3.14159265 * POWER(${impact_parameter}, 2))),3)
+    END ;;
+  }
+  dimension: dim_stellar_flux {
     type: number
     sql:
     CASE
-      WHEN ${impact_parameter} > 0 THEN
-        ${star.stellar_luminosity} / (4 * 3.14159265 * POWER(${impact_parameter}, 2))
+      WHEN ${impact_parameter} IS NOT NULL AND ${impact_parameter} > 0 THEN
+      ROUND(
+        (${star.stellar_luminosity} / (4 * 3.14159265 * POWER(${impact_parameter}, 2))),3)
     END ;;
   }
 }
