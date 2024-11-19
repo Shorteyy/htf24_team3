@@ -115,4 +115,12 @@ view: planet {
     type: count
     drill_fields: [planet_id, planet_name]
   }
+  measure: stellar_flux {
+    type: number
+    sql:
+    CASE
+      WHEN ${impact_parameter} > 0 THEN
+        ${star.stellar_luminosity} / (4 * 3.14159265 * POWER(${impact_parameter}, 2))
+    END ;;
+  }
 }
