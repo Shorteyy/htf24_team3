@@ -14,18 +14,18 @@ explore: discovery_facility {
 
 explore: planet {
   join: star {
-    type: cross
-    relationship: many_to_many
+    type: left_outer
+    relationship: many_to_one
     sql_on: ${planet.host_id} = ${star.host_id} ;;
 
   }
   join: discovery_facility {
-    type: inner
+    type: left_outer
     relationship: one_to_one
     sql_on: ${discovery_facility.facility_id} = ${planet.facility_id} ;;
   }
   join: discovery_telescope {
-    type: inner
+    type: left_outer
     relationship: one_to_many
     sql_on: ${discovery_facility.facility_id} = ${discovery_telescope.facility_id} ;;
   }
