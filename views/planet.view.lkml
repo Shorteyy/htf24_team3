@@ -123,10 +123,15 @@ view: planet {
         AND ${planet_radius_earth} > 0.5 AND ${planet_radius_earth} < 2.5
         AND ${equilibrium_temperature_k} > 175 AND ${equilibrium_temperature_k} < 274
         AND ${planet_density} > 1
-        AND ${eccentricity} < 0.2 THEN 'yes'
-      ELSE 'no'
+        AND ${eccentricity} < 0.2 THEN TRUE
+      ELSE FALSE
     END ;;
   }
+  measure: habitable_planets {
+    type: count
+    filters: [is_habitable: "Yes"]
+  }
+
   measure: stellar_flux {
     type: average
     sql:
