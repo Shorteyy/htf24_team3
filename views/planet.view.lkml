@@ -115,6 +115,18 @@ view: planet {
     type: count
     drill_fields: [planet_id, planet_name]
   }
+  dimension: is_habitable {
+    type: yesno
+    sql:
+    CASE
+      WHEN ${planet_mass_earth} > 0.1 AND ${planet_mass_earth} < 10
+        AND ${planet_radius_earth} > 0.5 AND ${planet_radius_earth} < 2.5
+        AND ${equilibrium_temperature_k} > 175 AND ${equilibrium_temperature_k} < 274
+        AND ${planet_density} > 1
+        AND ${eccentricity} < 0.2 THEN 'yes'
+      ELSE 'no'
+    END ;;
+  }
   measure: stellar_flux {
     type: average
     sql:
