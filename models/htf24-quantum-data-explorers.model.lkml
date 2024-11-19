@@ -5,11 +5,34 @@ include: "/views/**/*.view.lkml"
 
 
 
-explore: discovery_facility {}
+explore: discovery_facility {
+  join: discovery_telescope {
+    relationship: one_to_many
+    sql_on: ${discovery_facility.facility_id} =${discovery_telescope.facility_id} ;;
+  }
+}
 
-explore: planet {}
+explore: planet {
+  join: star {
+    type: cross
+    relationship: many_to_many
+    sql_on: ${planet.host_id} = ${star.host_id} ;;
 
-explore: discovery_telescope {}
+  }
+  join: discovery_facility {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${discovery_facility.facility_id} = ${planet.facility_id} ;;
+  }
+  join: discovery_telescope {
+    type: inner
+    relationship: one_to_many
+    sql_on: ${discovery_facility.facility_id} = ${discovery_telescope.facility_id} ;;
+  }
+}
+
+explore: discovery_telescope {
+}
 
 explore: raw_planets {}
 
